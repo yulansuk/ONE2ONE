@@ -11,8 +11,8 @@
     }
 
     html {
-  scroll-behavior: smooth;
-}
+      scroll-behavior: smooth;
+    }
 
     * {
       margin: 0;
@@ -36,6 +36,7 @@
       top: 0; 
       padding: 20px; 
       z-index: 1000;  
+      background-color: white;
     }
     
     .logo {
@@ -67,7 +68,7 @@
       max-width: 100%;
       overflow-x: hidden;
       margin-bottom: 200px; 
-      padding-top: 80px; /* Adjust as needed */
+      padding-top: 80px;
     }
     
     .pixel-text {
@@ -77,14 +78,13 @@
       line-height: 1;
       letter-spacing: -1px;
       word-spacing: 5px;
-      margin-bottom: -70px; 
+      margin-bottom: -40px; 
       position: relative;
       user-select: none; 
       -webkit-user-select: none; 
       -moz-user-select: none; 
       -ms-user-select: none; 
       cursor: pointer;
-      margin-bottom: -40px; 
       will-change: transform, opacity;
     }
 
@@ -96,50 +96,92 @@
     .highlight {
       color: #acca00;
     }
-
-    .dropdown {
-      position: absolute;
-      background-color: white;
-      border: 2px solid #acca00;
-      z-index: 1001;
-      font-size: 30px;
-      font-family: 'Bit';
-      max-width: 600px;
+    
+    /* Completely redesigned dropdown menu */
+    .custom-dropdown {
+      position: fixed;
+      top: 50%;
       left: 50%;
-      transform: translateX(-50%);
-      top: 100%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      border: 3px solid #acca00;
+      z-index: 1001;
+      padding: 20px;
+      width: 80%;
+      max-width: 600px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
       display: none;
     }
-
-    .dropdown-option {
-      padding: 10px;
-      cursor: pointer;
-      user-select: none; /* Prevent text selection */
-      -webkit-user-select: none; /* Safari */
-      -moz-user-select: none; /* Firefox */
-      -ms-user-select: none; /* IE/Edge */
+    
+    .dropdown-title {
+      font-size: 40px;
+      margin-bottom: 20px;
+      text-align: center;
     }
-
-    .dropdown-option:hover {
+    
+    .dropdown-options {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .option-btn {
+      background: none;
+      border: 2px solid #000;
+      padding: 15px;
+      font-size: 30px;
+      font-family: 'Bit';
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .option-btn:hover, .option-btn.active {
       background-color: #acca00;
       color: white;
+      border-color: #acca00;
+    }
+    
+    .close-dropdown {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 30px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 5px 10px;
+    }
+    
+    .close-dropdown:hover {
+      color: #acca00;
+    }
+    
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 1000;
+      display: none;
     }
   
     /* Output section styling */
     .output-section {
-      margin-top: 0; /* Remove top margin */
-      display: none; /* Hidden by default */
+      margin-top: 0;
+      display: none;
       flex-direction: row;
       gap: 0;
       align-items: center;
-      height: 85vh; /* Reduce height */
+      height: 85vh;
       opacity: 0;
       transition: opacity 1s ease-in;
-      position: fixed; /* Fix at bottom */
+      position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
-      background-color: white; /* Ensure background */
+      background-color: white;
     }
     
     .output-section.visible {
@@ -148,31 +190,31 @@
     }
     
     .output-image {
-      width: 40%; /* Slightly narrower */
-      height: 85vh; /* Match parent height */
+      width: 40%;
+      height: 85vh;
       object-fit: cover;
       flex-shrink: 0;
     }
     
     .output-content {
       flex: 1;
-      padding: 0 40px; /* Reduce padding */
-      height: 85vh; /* Match parent height */
+      padding: 0 40px;
+      height: 85vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      max-width: 600px; /* Narrower max width */
+      max-width: 600px;
       margin: 0 auto; 
-      position: relative; /* For absolute positioning of child elements */
+      position: relative;
     }
     
     .output-title {
       font-family: 'Bit';
-      font-size: 150px; /* Smaller size */
+      font-size: 150px;
       line-height: 0.9;
-      margin-bottom: 30px; /* Reduced margin */
+      margin-bottom: 30px;
       position: relative;
-      padding-left: 0; /* Reset padding */
+      padding-left: 0;
     }
     
     .output-title:before {
@@ -180,17 +222,17 @@
       color: #acca00;
       position: absolute;
       left: -60px;
-      font-size: 150px; /* Match title size */
+      font-size: 150px;
     }
     
     .output-paragraph {
       font-family: 'Bit';
-      font-size: 28px; /* Slightly smaller */
+      font-size: 28px;
       line-height: 1.1;
-      margin: 30px 0; /* Reduced margin */
+      margin: 30px 0;
       max-width: 90%;
-      margin-left: 0; /* Align with title */
-      padding-left: 0; /* Reset padding */
+      margin-left: 0;
+      padding-left: 0;
     }
     
     .output-button {
@@ -205,8 +247,8 @@
       transition: all 0.3s ease-in-out;
       border: none;
       position: relative;
-      margin-left: -60px; /* Align with the ">" symbol */
-      padding-left: 60px; /* Add padding to offset the margin */
+      margin-left: -60px;
+      padding-left: 60px;
     }
     
     .output-button:hover {
@@ -218,7 +260,7 @@
       .output-section {
         flex-direction: column;
         height: auto;
-        position: relative; /* Not fixed on smaller screens */
+        position: relative;
       }
       
       .output-image {
@@ -252,21 +294,26 @@
         margin-left: -40px;
         padding-left: 40px;
       }
+      
+      .custom-dropdown {
+        width: 90%;
+      }
+      
+      .dropdown-title {
+        font-size: 30px;
+      }
+      
+      .option-btn {
+        font-size: 24px;
+        padding: 10px;
+      }
     }
     
     @media (max-width: 768px) {
+      .pixel-text[data-index] {
+        color: #acca00;
+      }
 
-      @media (max-width: 768px) {
-  .pixel-text[data-index] {
-    color: #acca00; /* Always green on mobile */
-  }
-}
-
-.nav {
-      display: flex;
-      gap: 50px; 
-      margin-right: 100px; 
-    }
       .pixel-text {
         font-size: 60px;
         margin-bottom: -20px;
@@ -284,11 +331,6 @@
       .logo {
         font-size: 28px;
       }
-
-      .dropdown {
-        font-size: 18px;
-        max-width: 300px;
-      }
       
       .output-title {
         font-size: 60px;
@@ -302,6 +344,19 @@
       .output-button {
         margin-left: -30px;
         padding-left: 30px;
+      }
+      
+      .custom-dropdown {
+        width: 95%;
+      }
+      
+      .dropdown-title {
+        font-size: 24px;
+      }
+      
+      .option-btn {
+        font-size: 18px;
+        padding: 8px;
       }
     }
   </style>
@@ -370,6 +425,16 @@
     </div>
   </div>
   
+  <!-- Modal dropdown menu -->
+  <div class="overlay" id="overlay"></div>
+  <div class="custom-dropdown" id="customDropdown">
+    <button class="close-dropdown" id="closeDropdown">X</button>
+    <div class="dropdown-title" id="dropdownTitle">Select an option</div>
+    <div class="dropdown-options" id="dropdownOptions">
+      <!-- Options will be added dynamically -->
+    </div>
+  </div>
+  
   <!-- Output section that will appear at the bottom -->
   <div class="output-section" id="outputSection">
     <img src="imgs/dithered.jpg" alt="Output Image" id="outputImage" class="output-image">
@@ -387,13 +452,20 @@
       // Ensure we start at the top of the page
       window.scrollTo(0, 0);
       
-      const textElements = document.querySelectorAll('.pixel-text');
+      const textElements = document.querySelectorAll('.pixel-text[data-index]');
       const outputSection = document.getElementById('outputSection');
       const outputImage = document.getElementById('outputImage');
       const outputTitle = document.getElementById('outputTitle');
       const outputParagraph = document.getElementById('outputParagraph');
       const outputButton = document.getElementById('outputButton');
-
+      
+      // Custom dropdown elements
+      const overlay = document.getElementById('overlay');
+      const customDropdown = document.getElementById('customDropdown');
+      const closeDropdown = document.getElementById('closeDropdown');
+      const dropdownTitle = document.getElementById('dropdownTitle');
+      const dropdownOptions = document.getElementById('dropdownOptions');
+      
       // Track selected options
       const selectedOptions = {
         0: "Years of loving",
@@ -434,7 +506,7 @@
           ),
           title: "Fragments.",
           paragraph: "We were more than our broken pieces. The grand scale of what we built together doesn't simply vanish with time. Reality has a way of showing us what matters.",
-          image: "imgs/dither1",
+          image: "imgs/dither1.jpg",
           buttonText: "What could we become?"
         },
         // Config 3: Hating + Small + Head + Meant to be
@@ -472,81 +544,97 @@
           buttonText: "Rewrite our ending"
         }
       ];
-
-      let ticking = false;
-document.addEventListener("scroll", function () {
-  if (!ticking) {
-    requestAnimationFrame(() => {
-      // Run any scroll-based updates here
-      ticking = false;
-    });
-    ticking = true;
-  }
-});
-
-      // Create dropdowns for interactive elements
-      Object.keys(wordOptions).forEach(optionIndex => {
-        const index = parseInt(optionIndex);
-        const element = textElements[index];
+      
+      // Track active text element for dropdown
+      let activeElementIndex = null;
+      
+      // Track which options have been changed
+      const changedOptions = {
+        0: false,
+        3: false,
+        8: false,
+        12: false
+      };
+      
+      // Create dropdown options dynamically
+      function populateDropdown(index) {
+        // Clear existing options
+        dropdownOptions.innerHTML = '';
         
-        // Set data attribute for easy reference
-        element.setAttribute('data-index', index);
+        // Set dropdown title
+        dropdownTitle.textContent = "Choose an option:";
+        
+        // Create option buttons
+        wordOptions[index].forEach((option, i) => {
+          const button = document.createElement('button');
+          button.className = 'option-btn';
+          button.textContent = option;
+          
+          // Highlight currently selected option
+          if (option === selectedOptions[index]) {
+            button.classList.add('active');
+          }
+          
+          // Set click handler
+          button.addEventListener('click', () => {
+            // Update text element
+            const targetElement = document.querySelector(`.pixel-text[data-index="${index}"]`);
+            targetElement.textContent = option;
+            
+            // Update highlight class
+            if (i === 0) {
+              targetElement.classList.remove('highlight');
+            } else {
+              targetElement.classList.add('highlight');
+            }
+            
+            // Update selected option
+            selectedOptions[index] = option;
+            
+            // Mark as changed
+            changedOptions[index] = true;
+            
+            // Close dropdown
+            hideDropdown();
+            
+            // Update output section
+            updateOutputSection();
+          });
+          
+          dropdownOptions.appendChild(button);
+        });
+      }
+      
+      // Show dropdown
+      function showDropdown(index) {
+        activeElementIndex = index;
+        populateDropdown(index);
+        overlay.style.display = 'block';
+        customDropdown.style.display = 'block';
+      }
+      
+      // Hide dropdown
+      function hideDropdown() {
+        overlay.style.display = 'none';
+        customDropdown.style.display = 'none';
+        activeElementIndex = null;
+      }
+      
+      // Close dropdown button
+      closeDropdown.addEventListener('click', hideDropdown);
+      
+      // Click outside to close
+      overlay.addEventListener('click', hideDropdown);
+      
+      // Set up text element click handlers
+      textElements.forEach(element => {
+        const index = parseInt(element.getAttribute('data-index'));
         
         // Track selected index
         let currentIndex = 0;
         
-        // Create dropdown
-        const dropdown = document.createElement('div');
-        dropdown.className = 'dropdown';
-        dropdown.id = `dropdown-${index}`;
-        
-        // Create options
-        wordOptions[index].forEach((option, optIdx) => {
-          const optionElement = document.createElement('div');
-          optionElement.className = 'dropdown-option';
-          optionElement.textContent = option;
-          optionElement.addEventListener('click', function(e) {
-            // Prevent event propagation
-            e.stopPropagation();
-            
-            // Update text
-            element.textContent = option;
-            
-            // Update styling
-            if (optIdx === 0) {
-              element.classList.remove('highlight');
-            } else {
-              element.classList.add('highlight');
-            }
-            
-            // Update current index
-            currentIndex = optIdx;
-            
-            // Update selected options
-            selectedOptions[index] = option;
-            
-            // Mark this option as changed
-            changedOptions[index] = true;
-            
-            // Update output section
-            updateOutputSection();
-            
-            // Hide dropdown
-            dropdown.style.display = 'none';
-          });
-          dropdown.appendChild(optionElement);
-        });
-        
-        // Append dropdown to element
-        element.appendChild(dropdown);
-        
-        // Click to cycle through options
-        element.addEventListener('click', function(e) {
-          // Only proceed if dropdown is not visible
-          if (dropdown.style.display === 'block') {
-            return;
-          }
-          
+        // Handle click to cycle options
+        element.addEventListener('click', function() {
           // Cycle to next option
           currentIndex = (currentIndex + 1) % wordOptions[index].length;
           const newOption = wordOptions[index][currentIndex];
@@ -563,36 +651,23 @@ document.addEventListener("scroll", function () {
           
           // Update output section
           updateOutputSection();
-          
-          // Re-append dropdown
-          element.appendChild(dropdown);
         });
         
-        // Hold to show dropdown
-        let holdTimer;
+        // Add long press handler to show dropdown
+        let pressTimer;
         
         element.addEventListener('mousedown', function() {
-          holdTimer = setTimeout(() => {
-            dropdown.style.display = 'block';
-            
-            // Close dropdown when clicking elsewhere
-            const closeDropdown = function(event) {
-              if (!dropdown.contains(event.target) && event.target !== element) {
-                dropdown.style.display = 'none';
-                document.removeEventListener('click', closeDropdown);
-              }
-            };
-            
-            document.addEventListener('click', closeDropdown);
+          pressTimer = setTimeout(() => {
+            showDropdown(index);
           }, 500);
         });
         
         element.addEventListener('mouseup', function() {
-          clearTimeout(holdTimer);
+          clearTimeout(pressTimer);
         });
         
         element.addEventListener('mouseleave', function() {
-          clearTimeout(holdTimer);
+          clearTimeout(pressTimer);
         });
         
         // Hover effects
@@ -608,14 +683,6 @@ document.addEventListener("scroll", function () {
           }
         });
       });
-      
-      // Track which options have been changed
-      const changedOptions = {
-        0: false,
-        3: false,
-        8: false,
-        12: false
-      };
       
       // Function to check if all options have been changed
       function allOptionsChanged() {
