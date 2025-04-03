@@ -10,6 +10,10 @@
       src: url(PPNeueBit-Bold.otf);
     }
 
+    html {
+  scroll-behavior: smooth;
+}
+
     * {
       margin: 0;
       padding: 0;
@@ -18,7 +22,6 @@
     }
     
     body {
-      background-color: rgba(255, 255, 255, 0);
       padding: 20px;
       overflow-x: hidden;
     }
@@ -27,6 +30,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      transform: translateZ(0); 
       margin-bottom: 50px;
       position: sticky; 
       top: 0; 
@@ -63,6 +67,7 @@
       max-width: 100%;
       overflow-x: hidden;
       margin-bottom: 200px; 
+      padding-top: 80px; /* Adjust as needed */
     }
     
     .pixel-text {
@@ -79,6 +84,8 @@
       -moz-user-select: none; 
       -ms-user-select: none; 
       cursor: pointer;
+      margin-bottom: -40px; 
+      will-change: transform, opacity;
     }
 
     .text-content {
@@ -465,6 +472,17 @@
           buttonText: "Rewrite our ending"
         }
       ];
+
+      let ticking = false;
+document.addEventListener("scroll", function () {
+  if (!ticking) {
+    requestAnimationFrame(() => {
+      // Run any scroll-based updates here
+      ticking = false;
+    });
+    ticking = true;
+  }
+});
 
       // Create dropdowns for interactive elements
       Object.keys(wordOptions).forEach(optionIndex => {
