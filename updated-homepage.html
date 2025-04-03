@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>One2One - Home</title>
+  <style>
+    @font-face {
+      font-family: 'Bit';
+      src: url(PPNeueBit-Bold.otf);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Bit';
+    }
+    
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+    
+    body {
+      background-color: white;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      z-index: 1000;
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100%;
+    }
+    
+    .logo {
+      font-weight: bold;
+      font-size: 35px;
+      line-height: .6;
+      visibility: hidden; /* Hide this logo since we have the pixel one in hero */
+    }
+    
+    .nav {
+      display: flex;
+      gap: 50px; 
+      margin-right: 90px; 
+    }
+    
+    .nav a {
+      text-decoration: none;
+      color: #000;
+      font-size: 24px;
+      padding: 10px 15px; 
+      transition: all 0.3s ease-in-out; 
+    }
+
+    .nav a:hover {
+      background-color: #acca00; 
+      color: white; 
+    }
+    
+    .main-content {
+      display: flex;
+      width: 100%;
+      height: 100vh;
+    }
+    
+    .dithered-image {
+      width: 50%;
+      height: 100vh;
+      object-fit: cover;
+      image-rendering: pixelated;
+    }
+    
+    .logo-container {
+      width: 50%;
+      height: 100vh;
+      position: relative;
+    }
+    
+    .pixel-logo {
+      position: absolute;
+      right: 10%;
+      bottom: 5%;
+      font-family: 'Bit';
+      font-size: 250px;
+      line-height: 0.6;
+      font-weight: bold;
+      image-rendering: pixelated;
+      text-align: right;
+    }
+    
+    /* Link styles */
+    .pixel-logo a {
+      text-decoration: none;
+      color: black;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+      padding: 0 15px; /* Add padding for the background */
+      display: inline-block;
+    }
+    
+    .pixel-logo a:hover {
+      background-color: #acca00;
+      color: white;
+    }
+    
+    @media (max-width: 1200px) {
+      .pixel-logo {
+        font-size: 120px;
+        right: 10%;
+        bottom: 5%;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      
+
+      .nav a {
+      text-decoration: none;
+      color: #ffffff;
+      font-size: 24px;
+      padding: 10px 15px; 
+      transition: all 0.3s ease-in-out; 
+    }
+      
+      .main-content {
+        flex-direction: column;
+      }
+      
+      .dithered-image {
+        width: 100%;
+        height: 50vh;
+      }
+      
+      .logo-container {
+        width: 100%;
+        height: 50vh;
+      }
+      
+      .pixel-logo {
+        font-size: 80px;
+        right: 5%;
+        bottom: 10%;
+      }
+      
+      .nav {
+        gap: 20px;
+        margin-right: 20px;
+      }
+      
+      .nav a {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="logo">One2<br>One</div>
+    <div class="nav">
+      <a href="index.html">Home</a>
+      <a href="#">About</a>
+      <a href="one2one.html">One2One</a>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <img src="imgs/dither2.jpeg" alt="Dithered couple image" class="dithered-image">
+    <div class="logo-container">
+      <div class="pixel-logo">
+        <a href="one2one.html">
+          One2<br>One
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Ensure we start at the top of the page
+      window.scrollTo(0, 0);
+    });
+  </script>
+</body>
+</html>

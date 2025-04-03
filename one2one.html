@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>One2One</title>
+  <style>
+    @font-face {
+      font-family: 'Bit';
+      src: url(PPNeueBit-Bold.otf);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Bit';
+    }
+    
+    body {
+      background-color: rgba(255, 255, 255, 0);
+      padding: 20px;
+      overflow-x: hidden;
+    }
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 50px;
+      position: sticky; 
+      top: 0; 
+      padding: 20px; 
+      z-index: 1000;  
+    }
+    
+    .logo {
+      font-weight: bold;
+      font-size: 35px;
+      line-height: .6;
+    }
+    
+    .nav {
+      display: flex;
+      gap: 50px; 
+      margin-right: 90px; 
+    }
+    
+    .nav a {
+      text-decoration: none;
+      color: #000;
+      font-size: 24px;
+      padding: 10px 15px; 
+      transition: all 0.3s ease-in-out; 
+    }
+
+    .nav a:hover {
+      background-color: #acca00; 
+      color: white; 
+    }
+    
+    .text-container {
+      max-width: 100%;
+      overflow-x: hidden;
+      margin-bottom: 200px; 
+    }
+    
+    .pixel-text {
+      font-family: 'Bit';
+      font-weight: bold;
+      font-size: 250px; 
+      line-height: 1;
+      letter-spacing: -1px;
+      word-spacing: 5px;
+      margin-bottom: -70px; 
+      position: relative;
+      user-select: none; 
+      -webkit-user-select: none; 
+      -moz-user-select: none; 
+      -ms-user-select: none; 
+      cursor: pointer;
+    }
+
+    .text-content {
+      position: relative;
+      z-index: 1;
+    }
+    
+    .highlight {
+      color: #acca00;
+    }
+
+    .dropdown {
+      position: absolute;
+      background-color: white;
+      border: 2px solid #acca00;
+      z-index: 1001;
+      font-size: 30px;
+      font-family: 'Bit';
+      max-width: 600px;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 100%;
+      display: none;
+    }
+
+    .dropdown-option {
+      padding: 10px;
+      cursor: pointer;
+      user-select: none; /* Prevent text selection */
+      -webkit-user-select: none; /* Safari */
+      -moz-user-select: none; /* Firefox */
+      -ms-user-select: none; /* IE/Edge */
+    }
+
+    .dropdown-option:hover {
+      background-color: #acca00;
+      color: white;
+    }
+  
+    /* Output section styling */
+    .output-section {
+      margin-top: 0; /* Remove top margin */
+      display: none; /* Hidden by default */
+      flex-direction: row;
+      gap: 0;
+      align-items: center;
+      height: 85vh; /* Reduce height */
+      opacity: 0;
+      transition: opacity 1s ease-in;
+      position: fixed; /* Fix at bottom */
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: white; /* Ensure background */
+    }
+    
+    .output-section.visible {
+      display: flex;
+      opacity: 1;
+    }
+    
+    .output-image {
+      width: 40%; /* Slightly narrower */
+      height: 85vh; /* Match parent height */
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    
+    .output-content {
+      flex: 1;
+      padding: 0 40px; /* Reduce padding */
+      height: 85vh; /* Match parent height */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      max-width: 600px; /* Narrower max width */
+      margin: 0 auto; 
+      position: relative; /* For absolute positioning of child elements */
+    }
+    
+    .output-title {
+      font-family: 'Bit';
+      font-size: 150px; /* Smaller size */
+      line-height: 0.9;
+      margin-bottom: 30px; /* Reduced margin */
+      position: relative;
+      padding-left: 0; /* Reset padding */
+    }
+    
+    .output-title:before {
+      content: ">";
+      color: #acca00;
+      position: absolute;
+      left: -60px;
+      font-size: 150px; /* Match title size */
+    }
+    
+    .output-paragraph {
+      font-family: 'Bit';
+      font-size: 28px; /* Slightly smaller */
+      line-height: 1.1;
+      margin: 30px 0; /* Reduced margin */
+      max-width: 90%;
+      margin-left: 0; /* Align with title */
+      padding-left: 0; /* Reset padding */
+    }
+    
+    .output-button {
+      display: inline-block;
+      background-color: transparent;
+      color: #000;
+      padding: 12px 25px;
+      font-size: 28px;
+      margin-top: 30px;
+      cursor: pointer;
+      font-family: 'Bit';
+      transition: all 0.3s ease-in-out;
+      border: none;
+      position: relative;
+      margin-left: -60px; /* Align with the ">" symbol */
+      padding-left: 60px; /* Add padding to offset the margin */
+    }
+    
+    .output-button:hover {
+      background-color: #acca00;
+      color: white;
+    }
+    
+    @media (max-width: 1200px) {
+      .output-section {
+        flex-direction: column;
+        height: auto;
+        position: relative; /* Not fixed on smaller screens */
+      }
+      
+      .output-image {
+        width: 100%;
+        height: 40vh;
+        object-fit: cover;
+      }
+      
+      .output-content {
+        height: auto;
+        padding: 40px;
+        max-width: 100%;
+      }
+      
+      .output-title {
+        font-size: 90px;
+      }
+      
+      .output-title:before {
+        font-size: 90px;
+        left: -40px;
+      }
+      
+      .output-paragraph {
+        font-size: 22px;
+        max-width: 100%;
+      }
+      
+      .output-button {
+        font-size: 22px;
+        margin-left: -40px;
+        padding-left: 40px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+
+      @media (max-width: 768px) {
+  .pixel-text[data-index] {
+    color: #acca00; /* Always green on mobile */
+  }
+}
+      .pixel-text {
+        font-size: 80px;
+        margin-bottom: -20px;
+      }
+      
+      .nav {
+        gap: 20px;
+        margin-right: 20px;
+      }
+      
+      .nav a {
+        font-size: 18px;
+      }
+      
+      .logo {
+        font-size: 28px;
+      }
+
+      .dropdown {
+        font-size: 18px;
+        max-width: 300px;
+      }
+      
+      .output-title {
+        font-size: 60px;
+      }
+      
+      .output-title:before {
+        font-size: 60px;
+        left: -30px;
+      }
+      
+      .output-button {
+        margin-left: -30px;
+        padding-left: 30px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="logo">One2<br>One</div>
+    <div class="nav">
+      <a href="#">Home</a>
+      <a href="#">About</a>
+      <a href="#">One2One</a>
+    </div>
+  </div>
+
+  <div class="text-container">
+    <div class="pixel-text pixel-font" data-index="0">
+      Years of loving
+    </div>
+    
+    <div class="pixel-text pixel-font">
+      you can be
+    </div>
+    
+    <div class="pixel-text pixel-font">
+      pushed aside for
+    </div>
+    
+    <div class="pixel-text pixel-font" data-index="3">
+      things so small.
+    </div>
+
+    <div class="pixel-text pixel-font">
+      I've tried to
+    </div>
+
+    <div class="pixel-text pixel-font">
+      understand,
+    </div>
+
+    <div class="pixel-text pixel-font">
+      but you are so 
+    </div>
+
+    <div class="pixel-text pixel-font">
+      caught up
+    </div>
+
+    <div class="pixel-text pixel-font" data-index="8">
+      in your head.
+    </div>
+
+    <div class="pixel-text pixel-font">
+      All of these
+    </div>
+
+    <div class="pixel-text pixel-font">
+      warning sign, 
+    </div>
+
+    <div class="pixel-text pixel-font">
+      maybe we are just
+    </div>
+
+    <div class="pixel-text pixel-font" data-index="12">
+      not meant to be.
+    </div>
+  </div>
+  
+  <!-- Output section that will appear at the bottom -->
+  <div class="output-section" id="outputSection">
+    <img src="imgs/dithered.jpg" alt="Output Image" id="outputImage" class="output-image">
+    <div class="output-content">
+      <div class="output-title" id="outputTitle">Split.</div>
+      <div class="output-paragraph" id="outputParagraph">
+        Did you really try? Did you really see me? Or was I just another mistake that you've stumbled upon. I loved you, did you know?
+      </div>
+      <div class="output-button" id="outputButton">Did you ever love me?</div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Ensure we start at the top of the page
+      window.scrollTo(0, 0);
+      
+      const textElements = document.querySelectorAll('.pixel-text');
+      const outputSection = document.getElementById('outputSection');
+      const outputImage = document.getElementById('outputImage');
+      const outputTitle = document.getElementById('outputTitle');
+      const outputParagraph = document.getElementById('outputParagraph');
+      const outputButton = document.getElementById('outputButton');
+
+      // Track selected options
+      const selectedOptions = {
+        0: "Years of loving",
+        3: "things so small.",
+        8: "in your head.",
+        12: "not meant to be."
+      };
+
+      const wordOptions = {
+        0: ["Years of loving", "Years of hating", "Years of finding"],
+        3: ["things so small.", "things so big.", "these differences."],
+        8: ["in your head.", "in the reality.", "in your dreams."], 
+        12: ["not meant to be.", "meant to be.", "different."]
+      };
+      
+      // Output configurations based on selections
+      const outputConfigs = [
+        // Config 1: Default / Initial state
+        {
+          condition: () => (
+            selectedOptions[0] === "Years of loving" && 
+            selectedOptions[3] === "things so small." && 
+            selectedOptions[8] === "in your head." && 
+            selectedOptions[12] === "not meant to be."
+          ),
+          title: "Split.",
+          paragraph: "Did you really try? Did you really see me? Or was I just another mistake that you've stumbled upon. I loved you, did you know?",
+          image: "imgs/dithered.jpg",
+          buttonText: "Did you ever love me?"
+        },
+        // Config 2: Loving + Big + Reality + Different
+        {
+          condition: () => (
+            selectedOptions[0] === "Years of loving" && 
+            selectedOptions[3] === "things so big." && 
+            selectedOptions[8] === "in the reality." && 
+            selectedOptions[12] === "different."
+          ),
+          title: "Fragments.",
+          paragraph: "We were more than our broken pieces. The grand scale of what we built together doesn't simply vanish with time. Reality has a way of showing us what matters.",
+          image: "imgs/dither1",
+          buttonText: "What could we become?"
+        },
+        // Config 3: Hating + Small + Head + Meant to be
+        {
+          condition: () => (
+            selectedOptions[0] === "Years of hating" && 
+            selectedOptions[3] === "things so small." && 
+            selectedOptions[8] === "in your head." && 
+            selectedOptions[12] === "meant to be."
+          ),
+          title: "Paradox.",
+          paragraph: "Anger rarely tells the whole story. Sometimes the things we claim to hate are reflections of what we truly desire. Your mind crafted a narrative, but deep down, you knew the truth.",
+          image: "imgs/dithered_image2.jpg",
+          buttonText: "Why fight what's inevitable?"
+        },
+        // Config 4: Finding + Differences + Dreams + Not meant to be
+        {
+          condition: () => (
+            selectedOptions[0] === "Years of finding" && 
+            selectedOptions[3] === "these differences." && 
+            selectedOptions[8] === "in your dreams." && 
+            selectedOptions[12] === "not meant to be."
+          ),
+          title: "Ephemeral.",
+          paragraph: "The search itself has value. Our differences weren't flaws but features of who we are. Dreams reveal desires we're afraid to speak. Perhaps that's enough.",
+          image: "imgs/dithered_image1.jpg",
+          buttonText: "What remains when we part?"
+        },
+        // Config 5: Any other combination
+        {
+          condition: () => true, // Catch-all
+          title: "Unknown.",
+          paragraph: "We write our own stories through the choices we make. Each word selected shapes a different reality, a different outcome, a different feeling. What story are you telling yourself?",
+          image: "imgs/dithered_image.jpg",
+          buttonText: "Rewrite our ending"
+        }
+      ];
+
+      // Create dropdowns for interactive elements
+      Object.keys(wordOptions).forEach(optionIndex => {
+        const index = parseInt(optionIndex);
+        const element = textElements[index];
+        
+        // Set data attribute for easy reference
+        element.setAttribute('data-index', index);
+        
+        // Track selected index
+        let currentIndex = 0;
+        
+        // Create dropdown
+        const dropdown = document.createElement('div');
+        dropdown.className = 'dropdown';
+        dropdown.id = `dropdown-${index}`;
+        
+        // Create options
+        wordOptions[index].forEach((option, optIdx) => {
+          const optionElement = document.createElement('div');
+          optionElement.className = 'dropdown-option';
+          optionElement.textContent = option;
+          optionElement.addEventListener('click', function(e) {
+            // Prevent event propagation
+            e.stopPropagation();
+            
+            // Update text
+            element.textContent = option;
+            
+            // Update styling
+            if (optIdx === 0) {
+              element.classList.remove('highlight');
+            } else {
+              element.classList.add('highlight');
+            }
+            
+            // Update current index
+            currentIndex = optIdx;
+            
+            // Update selected options
+            selectedOptions[index] = option;
+            
+            // Mark this option as changed
+            changedOptions[index] = true;
+            
+            // Update output section
+            updateOutputSection();
+            
+            // Hide dropdown
+            dropdown.style.display = 'none';
+          });
+          dropdown.appendChild(optionElement);
+        });
+        
+        // Append dropdown to element
+        element.appendChild(dropdown);
+        
+        // Click to cycle through options
+        element.addEventListener('click', function(e) {
+          // Only proceed if dropdown is not visible
+          if (dropdown.style.display === 'block') {
+            return;
+          }
+          
+          // Cycle to next option
+          currentIndex = (currentIndex + 1) % wordOptions[index].length;
+          const newOption = wordOptions[index][currentIndex];
+          
+          // Update text and styling
+          element.textContent = newOption;
+          element.classList.toggle('highlight', currentIndex !== 0);
+          
+          // Update selected options
+          selectedOptions[index] = newOption;
+          
+          // Mark this option as changed
+          changedOptions[index] = true;
+          
+          // Update output section
+          updateOutputSection();
+          
+          // Re-append dropdown
+          element.appendChild(dropdown);
+        });
+        
+        // Hold to show dropdown
+        let holdTimer;
+        
+        element.addEventListener('mousedown', function() {
+          holdTimer = setTimeout(() => {
+            dropdown.style.display = 'block';
+            
+            // Close dropdown when clicking elsewhere
+            const closeDropdown = function(event) {
+              if (!dropdown.contains(event.target) && event.target !== element) {
+                dropdown.style.display = 'none';
+                document.removeEventListener('click', closeDropdown);
+              }
+            };
+            
+            document.addEventListener('click', closeDropdown);
+          }, 500);
+        });
+        
+        element.addEventListener('mouseup', function() {
+          clearTimeout(holdTimer);
+        });
+        
+        element.addEventListener('mouseleave', function() {
+          clearTimeout(holdTimer);
+        });
+        
+        // Hover effects
+        element.addEventListener('mouseover', function() {
+          if (!element.classList.contains('highlight')) {
+            element.style.color = '#acca00';
+          }
+        });
+        
+        element.addEventListener('mouseout', function() {
+          if (!element.classList.contains('highlight')) {
+            element.style.color = '';
+          }
+        });
+      });
+      
+      // Track which options have been changed
+      const changedOptions = {
+        0: false,
+        3: false,
+        8: false,
+        12: false
+      };
+      
+      // Function to check if all options have been changed
+      function allOptionsChanged() {
+        return changedOptions[0] && changedOptions[3] && changedOptions[8] && changedOptions[12];
+      }
+      
+      // Add click event to the button to refresh the page
+      outputButton.addEventListener('click', function() {
+        // Scroll to top first
+        window.scrollTo({
+          top: 0,
+          behavior: 'auto'
+        });
+        
+        // Refresh the page after a tiny delay to ensure scroll completes
+        setTimeout(() => {
+          window.location.reload();
+        }, 50);
+      });
+      
+      // Function to update output section based on selected options
+      function updateOutputSection() {
+        // Find the first matching config
+        const config = outputConfigs.find(config => config.condition());
+        
+        // Update output elements
+        outputTitle.textContent = config.title;
+        outputParagraph.textContent = config.paragraph;
+        outputImage.src = config.image;
+        outputButton.textContent = config.buttonText;
+        
+        // Check if all options have been changed
+        if (allOptionsChanged()) {
+          // Show the output section with a fade-in effect
+          outputSection.classList.add('visible');
+          
+          // Scroll to output section
+          setTimeout(() => {
+            window.scrollTo({
+              top: document.body.scrollHeight,
+              behavior: 'smooth'
+            });
+          }, 500);
+        }
+      }
+    });
+  </script>
+</body>
+</html>
