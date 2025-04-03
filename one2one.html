@@ -35,8 +35,7 @@
       position: sticky; 
       top: 0; 
       padding: 20px; 
-      z-index: 1000;  
-      background-color: white;
+      z-index: 1000;
     }
     
     .logo {
@@ -446,7 +445,6 @@
       <div class="output-button" id="outputButton">Did you ever love me?</div>
     </div>
   </div>
-
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       // Ensure we start at the top of the page
@@ -689,18 +687,33 @@
         return changedOptions[0] && changedOptions[3] && changedOptions[8] && changedOptions[12];
       }
       
-      // Add click event to the button to refresh the page
+      // Add click event to the button to reset experience
       outputButton.addEventListener('click', function() {
-        // Scroll to top first
+        // Scroll to top with smooth animation
         window.scrollTo({
           top: 0,
-          behavior: 'auto'
+          behavior: 'smooth'
         });
         
-        // Refresh the page after a tiny delay to ensure scroll completes
+        // Hide the output section
         setTimeout(() => {
-          window.location.reload();
-        }, 50);
+          outputSection.classList.remove('visible');
+          
+          // Reset all changed options
+          Object.keys(changedOptions).forEach(key => {
+            changedOptions[key] = false;
+          });
+          
+          // Reset text elements to their original state
+          textElements.forEach(element => {
+            const index = parseInt(element.getAttribute('data-index'));
+            if (index !== null && wordOptions[index]) {
+              element.textContent = wordOptions[index][0];
+              element.classList.remove('highlight');
+              selectedOptions[index] = wordOptions[index][0];
+            }
+          });
+        }, 500); // Wait for scroll to start before hiding
       });
       
       // Function to update output section based on selected options
@@ -730,5 +743,3 @@
       }
     });
   </script>
-</body>
-</html>
